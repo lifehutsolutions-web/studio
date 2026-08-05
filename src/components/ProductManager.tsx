@@ -259,7 +259,7 @@ const ratingCount = {
       "Event / Wedding",
       "NGO / Non-Profit"
     ];
-    
+
     if (p.cat && standardCategories.includes(p.cat)) {
     setFCat(p.cat);
      setFFCatOption("");
@@ -1006,7 +1006,7 @@ activeTab === "list"
                 </button>
                 <button
                   onClick={handleSaveProduct}
-                  className="btn-primary flex items-center gap-1 rounded-lg bg-blue-600 hover:bg-blue-700 px-4 py-2 text-xs font-semibold text-white cursor-pointer"
+                  className="btn-primary flex items-center gap-1 rounded-lg bg-blue-600 hover:bg-blue-700 px-4 py-2 text-xs font-semibold text-cursor-pointer border-0"
                 >
                   <i className="ti ti-device-floppy"></i> Save product
                 </button>
