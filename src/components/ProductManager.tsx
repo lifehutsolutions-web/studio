@@ -214,6 +214,7 @@ const ratingCount = {
     setEditingProduct(null);
     setFName("");
     setFCat("SaaS / Startup");
+    setFFCatOption("");
     setFDesc("");
     setFTemplate("");
     setFPrice("");
@@ -243,7 +244,30 @@ const ratingCount = {
   const startEditProduct = (p: Product) => {
     setEditingProduct(p);
     setFName(p.name);
+
+     const standardCategories = [
+      "SaaS / Startup",
+      "Portfolio",
+      "Agency",
+      "Business",
+      "E-Commerce",
+      "Restaurant",
+      "Personal Brand",
+      "Education",
+      "Healthcare",
+      "Real Estate",
+      "Event / Wedding",
+      "NGO / Non-Profit"
+    ];
+    
+    if (p.cat && standardCategories.includes(p.cat)) {
     setFCat(p.cat);
+     setFFCatOption("");
+    } else {
+      setFCat("custom");
+      setFFCatOption(p.cat || "");
+    }
+
     setFDesc(p.desc);
     setFTemplate(p.template);
     setFPrice(p.price);

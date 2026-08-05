@@ -1150,6 +1150,17 @@ export default function StoreFront({
                     </div>
 
                     <div className="flex gap-2 items-start ml-auto">
+                      {/* Live Preview small eye button (left of Buy & Download) */}
+                      <a
+                        href={`https://preview.lifehutsolutions.com/?template=${selectedProduct.template || selectedProduct.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-modal-s justify-center rounded-xl border border-[var(--border)] hover:bg-[var(--bg2)] text-[var(--text)] p-2.5 text-sm flex items-center justify-center transition-all cursor-pointer"
+                        title="Live Preview"
+                      >
+                        <i className="ti ti-eye"></i>
+                      </a>
+
                       {/* Claims and payment trigger */}
                       {selectedProduct.price && parseFloat(selectedProduct.price) > 0 ? (
                         <div className="flex flex-col items-center gap-1">
@@ -1194,7 +1205,7 @@ export default function StoreFront({
                           rel="noopener noreferrer"
                           className="btn-modal-s justify-center rounded-xl border border-[var(--border)] hover:bg-[var(--bg2)] text-[var(--text)] px-3 py-2.5 text-xs flex items-center gap-1 transition-all whitespace-nowrap"
                         >
-                          <i className="ti ti-eye"></i> Customize
+                          <i className="ti ti-adjustments"></i> Customize
                         </a>
                       )}
                     </div>
