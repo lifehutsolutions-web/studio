@@ -580,7 +580,7 @@ body {
 .tb-title { font-size: 16px; font-weight: 600; color: var(--text); }
 .tb-right { display: flex; align-items: center; gap: 10px; }
 .btn-primary { background: var(--blue); color: #fff; border: none; border-radius: 9px; padding: 9px 20px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 7px; transition: background .15s; }
-.btn-primary:hover { background: var(--blue-d); }
+.btn-primary:hover { background: var(--blue-dark); }
 .btn-outline { background: none; border: .5px solid var(--border); color: var(--text2); border-radius: 9px; padding: 9px 16px; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 7px; transition: all .15s; }
 .btn-outline:hover { border-color: var(--blue); color: var(--blue); }
 .btn-danger { background: none; border: .5px solid #fecaca; color: var(--red); border-radius: 9px; padding: 9px 16px; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 7px; transition: all .15s; }
