@@ -794,12 +794,16 @@ export default function StoreFront({
                           )}
                         </div>
 
-                        <button
-                          onClick={() => openProductModal(p)}
-                          className="btn-explore rounded-lg bg-[var(--blue)] hover:bg-[var(--blue-dark)] text-white text-xs font-bold px-4 py-2 flex items-center gap-1.5 transition-all cursor-pointer"
+                        <a
+                          href={`https://preview.lifehutsolutions.com/?template=${p.template || p.id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="btn-preview rounded-lg bg-[var(--blue)] hover:bg-[var(--blue-dark)] text-white text-xs font-bold px-3.5 py-2 flex items-center gap-1.5 transition-all cursor-pointer"
+                          title="Live Demo Preview"
                         >
-                          <i className="ti ti-eye"></i> Explore
-                        </button>
+                          <i className="ti ti-eye"></i> Preview
+                        </a>
                       </div>
                     </div>
                   </motion.article>
@@ -1053,143 +1057,146 @@ export default function StoreFront({
                 </div>
 
                 {/* Scrollable Left content */}
-                <div className="p-5 md:p-6 overflow-y-auto flex-1 flex flex-col justify-between">
-                  <div>
-                    <div className="modal-cat text-[10px] font-bold tracking-wider text-[var(--text3)] mb-1">
-                      {formatCategoryLabel(catToSlug(selectedProduct.cat))}
-                    </div>
-                    <h3 className="modal-title text-lg md:text-xl font-bold mb-2">{selectedProduct.name}</h3>
-                    <p className="modal-desc text-xs text-[var(--text2)] leading-relaxed mb-4">
-                      {selectedProduct.desc}
-                    </p>
+                <div className="p-5 md:p-6 overflow-y-auto flex-1">
+                  <div className="modal-cat text-[10px] font-bold tracking-wider text-[var(--text3)] mb-1">
+                    {formatCategoryLabel(catToSlug(selectedProduct.cat))}
+                  </div>
+                  <h3 className="modal-title text-lg md:text-xl font-bold mb-2">{selectedProduct.name}</h3>
+                  <p className="modal-desc text-xs text-[var(--text2)] leading-relaxed mb-4">
+                    {selectedProduct.desc}
+                  </p>
 
-                    {/* Checklist Features */}
-                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-[var(--text)] mb-2">
-                      Checklist & Features included
-                    </h4>
-                    <div className="modal-features grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
-                      {selectedProduct.features && selectedProduct.features.length > 0 ? (
-                        selectedProduct.features.map(feat => (
-                          <div key={feat} className="mfeat flex items-center gap-2 text-xs text-[var(--text2)]">
-                            <i className="ti ti-circle-check text-base text-[var(--blue)]"></i>
-                            {feat}
-                          </div>
-                        ))
-                      ) : (
-                        <div className="text-xs text-[var(--text3)] italic">Standard file components included.</div>
-                      )}
-                    </div>
+                  {/* Checklist Features */}
+                  <h4 className="text-[10px] font-bold uppercase tracking-wider text-[var(--text)] mb-2">
+                    Checklist & Features included
+                  </h4>
+                  <div className="modal-features grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
+                    {selectedProduct.features && selectedProduct.features.length > 0 ? (
+                      selectedProduct.features.map(feat => (
+                        <div key={feat} className="mfeat flex items-center gap-2 text-xs text-[var(--text2)]">
+                          <i className="ti ti-circle-check text-base text-[var(--blue)]"></i>
+                          {feat}
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-xs text-[var(--text3)] italic">Standard file components included.</div>
+                    )}
                   </div>
 
-                  <div>
-                    {/* Payment status, alert box & download controls */}
-                    {paymentStatus !== "idle" && (
-                      <div className={`p-4 rounded-xl mb-4 text-xs flex flex-col gap-2 ${
-                        paymentStatus === "processing" ? "bg-blue-50 dark:bg-blue-950/20 text-blue-800 dark:text-blue-300 border border-blue-200" :
-                        paymentStatus === "success" ? "bg-emerald-50 dark:bg-emerald-950/20 text-emerald-800 dark:text-emerald-300 border border-emerald-200" :
-                        "bg-rose-50 dark:bg-rose-950/20 text-rose-800 dark:text-rose-300 border border-rose-200"
-                      }`}>
-                        <div className="flex items-center gap-2 font-semibold">
-                          <i className={`ti ${
-                            paymentStatus === "processing" ? "ti-loader-2 animate-spin" :
-                            paymentStatus === "success" ? "ti-circle-check" :
-                            "ti-alert-circle"
-                          } text-base`}></i>
-                          {paymentStatus === "processing" ? "Verifying secured files..." :
-                           paymentStatus === "success" ? "Payment successfully verified!" :
-                           "Verification / Transaction failed"}
+                  {/* Payment status, alert box & download controls */}
+                  {paymentStatus !== "idle" && (
+                    <div className={`p-4 rounded-xl mb-4 text-xs flex flex-col gap-2 ${
+                      paymentStatus === "processing" ? "bg-blue-50 dark:bg-blue-950/20 text-blue-800 dark:text-blue-300 border border-blue-200" :
+                      paymentStatus === "success" ? "bg-emerald-50 dark:bg-emerald-950/20 text-emerald-800 dark:text-emerald-300 border border-emerald-200" :
+                      "bg-rose-50 dark:bg-rose-950/20 text-rose-800 dark:text-rose-300 border border-rose-200"
+                    }`}>
+                      <div className="flex items-center gap-2 font-semibold">
+                        <i className={`ti ${
+                          paymentStatus === "processing" ? "ti-loader-2 animate-spin" :
+                          paymentStatus === "success" ? "ti-circle-check" :
+                          "ti-alert-circle"
+                        } text-base`}></i>
+                        {paymentStatus === "processing" ? "Verifying secured files..." :
+                         paymentStatus === "success" ? "Payment successfully verified!" :
+                         "Verification / Transaction failed"}
+                      </div>
+                      {paymentStatus === "processing" && (
+                        <p>Connecting to secure storage. Do not refresh or exit checkout.</p>
+                      )}
+                      {paymentStatus === "success" && (
+                        <div>
+                          <p className="mb-2">Your secure, token-protected download URL has been created.</p>
+                          <a
+                            href={secureDownloadUrl || "#"}
+                            className="inline-flex items-center gap-1.5 rounded bg-emerald-600 px-3 py-1.5 font-bold text-white hover:bg-emerald-700"
+                          >
+                            <i className="ti ti-download"></i> Download Template Folder
+                          </a>
                         </div>
-                        {paymentStatus === "processing" && (
-                          <p>Connecting to secure storage. Do not refresh or exit checkout.</p>
-                        )}
-                        {paymentStatus === "success" && (
-                          <div>
-                            <p className="mb-2">Your secure, token-protected download URL has been created.</p>
-                            <a
-                              href={secureDownloadUrl || "#"}
-                              className="inline-flex items-center gap-1.5 rounded bg-emerald-600 px-3 py-1.5 font-bold text-white hover:bg-emerald-700"
-                            >
-                              <i className="ti ti-download"></i> Download Template Folder
-                            </a>
-                          </div>
-                        )}
-                        {paymentStatus === "error" && (
-                          <p>{errorMessage || "Failed to finalize payment check."}</p>
-                        )}
-                      </div>
-                    )}
+                      )}
+                      {paymentStatus === "error" && (
+                        <p>{errorMessage || "Failed to finalize payment check."}</p>
+                      )}
+                    </div>
+                  )}
+                </div>
 
-                    {/* Footer pricing & buttons */}
-                    <div className="modal-footer flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[var(--border)] pt-4 mt-2">
-                      <div>
-                        {selectedProduct.price && parseFloat(selectedProduct.price) > 0 ? (
-                          <div className="flex flex-col">
-                            <span className="text-[10px] text-[var(--text3)] uppercase font-semibold">Single payment</span>
-                            <div className="flex items-baseline gap-2">
-                              <span className="modal-price text-xl font-bold">
-                                ₹{Number(selectedProduct.price).toLocaleString("en-IN")}
-                              </span>
-                              {selectedProduct.oldprice && (
-                                <span className="modal-price-old text-[10px] text-[var(--text3)] line-through">
-                                  ₹{Number(selectedProduct.oldprice).toLocaleString("en-IN")}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="flex flex-col">
-                            <span className="text-[10px] text-[var(--text3)] uppercase font-semibold font-mono">Free item</span>
-                            <span className="modal-price text-xl font-bold text-emerald-600 dark:text-emerald-400">
-                              Free Claim
+                {/* Fixed Footer pricing, trust badges & buttons */}
+                <div className="modal-footer flex-shrink-0 border-t border-[var(--border)] bg-[var(--card)] p-4 md:px-6 md:py-3.5">
+                  <div className="flex items-center justify-between gap-3 w-full">
+                    <div>
+                      {selectedProduct.price && parseFloat(selectedProduct.price) > 0 ? (
+                        <div className="flex flex-col">
+                          <span className="text-[10px] text-[var(--text3)] uppercase font-semibold">Single payment</span>
+                          <div className="flex items-baseline gap-2">
+                            <span className="modal-price text-xl font-bold">
+                              ₹{Number(selectedProduct.price).toLocaleString("en-IN")}
                             </span>
+                            {selectedProduct.oldprice && (
+                              <span className="modal-price-old text-[10px] text-[var(--text3)] line-through">
+                                ₹{Number(selectedProduct.oldprice).toLocaleString("en-IN")}
+                              </span>
+                            )}
                           </div>
-                        )}
-                      </div>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col">
+                          <span className="text-[10px] text-[var(--text3)] uppercase font-semibold font-mono">Free item</span>
+                          <span className="modal-price text-xl font-bold text-emerald-600 dark:text-emerald-400">
+                            Free Claim
+                          </span>
+                        </div>
+                      )}
+                    </div>
 
-                      <div className="flex gap-2 w-full sm:w-auto">
-                        {/* Claims and payment trigger */}
-                        {selectedProduct.price && parseFloat(selectedProduct.price) > 0 ? (
+                    <div className="flex gap-2 items-start ml-auto">
+                      {/* Claims and payment trigger */}
+                      {selectedProduct.price && parseFloat(selectedProduct.price) > 0 ? (
+                        <div className="flex flex-col items-center gap-1">
                           <button
                             onClick={() => handleRazorpayPayment(selectedProduct)}
                             disabled={paymentStatus === "processing"}
-                            className="btn-modal-p flex-1 sm:flex-none justify-center rounded-xl bg-[var(--blue)] hover:bg-[var(--blue-dark)] text-white font-semibold text-xs px-4 py-2.5 flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50"
+                            className="btn-modal-p justify-center rounded-xl bg-[var(--blue)] hover:bg-[var(--blue-dark)] text-white font-semibold text-xs px-4 py-2.5 flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50 whitespace-nowrap"
                           >
                             <i className="ti ti-brand-up"></i> Buy & Download
                           </button>
-                        ) : (
-                          /* Free claim input and trigger */
-                          <div className="flex flex-col gap-2 w-full sm:w-auto">
-                            <div className="flex gap-1">
-                              <input
-                                type="email"
-                                placeholder="Enter your email"
-                                value={claimEmail}
-                                onChange={e => setClaimEmail(e.target.value)}
-                                disabled={paymentStatus === "processing" || paymentStatus === "success"}
-                                className="rounded-lg border border-[var(--border)] px-3 py-1.5 text-xs text-[var(--text)] outline-none min-w-[140px] bg-[var(--bg)]"
-                              />
-                              <button
-                                onClick={() => handleFreeClaim(selectedProduct)}
-                                disabled={paymentStatus === "processing" || paymentStatus === "success" || !claimEmail}
-                                className="btn-modal-p rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs px-3 py-1.5 flex items-center gap-1 transition-all cursor-pointer disabled:opacity-50"
-                              >
-                                <i className="ti ti-download"></i> Claim
-                              </button>
-                            </div>
+                          <div className="text-[10px] text-[var(--text3)] flex items-center gap-1 font-medium whitespace-nowrap">
+                            <span>💳</span> Secure Razorpay Checkout
                           </div>
-                        )}
+                        </div>
+                      ) : (
+                        /* Free claim input and trigger */
+                        <div className="flex flex-col gap-2 w-full sm:w-auto">
+                          <div className="flex gap-1">
+                            <input
+                              type="email"
+                              placeholder="Enter your email"
+                              value={claimEmail}
+                              onChange={e => setClaimEmail(e.target.value)}
+                              disabled={paymentStatus === "processing" || paymentStatus === "success"}
+                              className="rounded-lg border border-[var(--border)] px-3 py-1.5 text-xs text-[var(--text)] outline-none min-w-[140px] bg-[var(--bg)]"
+                            />
+                            <button
+                              onClick={() => handleFreeClaim(selectedProduct)}
+                              disabled={paymentStatus === "processing" || paymentStatus === "success" || !claimEmail}
+                              className="btn-modal-p rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs px-3 py-1.5 flex items-center gap-1 transition-all cursor-pointer disabled:opacity-50"
+                            >
+                              <i className="ti ti-download"></i> Claim
+                            </button>
+                          </div>
+                        </div>
+                      )}
 
-                        {selectedProduct.genurl && (
-                          <a
-                            href={selectedProduct.genurl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn-modal-s justify-center rounded-xl border border-[var(--border)] hover:bg-[var(--bg2)] text-[var(--text)] px-3 py-2 text-xs flex items-center gap-1 transition-all"
-                          >
-                            <i className="ti ti-eye"></i> Customize
-                          </a>
-                        )}
-                      </div>
+                      {selectedProduct.genurl && (
+                        <a
+                          href={selectedProduct.genurl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-modal-s justify-center rounded-xl border border-[var(--border)] hover:bg-[var(--bg2)] text-[var(--text)] px-3 py-2.5 text-xs flex items-center gap-1 transition-all whitespace-nowrap"
+                        >
+                          <i className="ti ti-eye"></i> Customize
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
