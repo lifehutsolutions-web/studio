@@ -4,7 +4,7 @@ import StoreFront from "./components/StoreFront";
 import ProductManager from "./components/ProductManager";
 import { supabase } from "./lib/supabaseClient";
 import ErrorBoundary from "./components/ErrorBoundary";
-import DEFAULT_PRODUCTS from "../data/products.json";
+import { INITIAL_PRODUCTS } from "./data/initialProducts";
 
 function getInitialProducts(): Product[] {
   try {
@@ -18,7 +18,7 @@ function getInitialProducts(): Product[] {
   } catch (e) {
     // Ignore cache read error
   }
-  return (DEFAULT_PRODUCTS as Product[]) || [];
+  return INITIAL_PRODUCTS;
 }
 
 export default function App() {
