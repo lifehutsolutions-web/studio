@@ -4,7 +4,96 @@ import StoreFront from "./components/StoreFront";
 import ProductManager from "./components/ProductManager";
 import { supabase } from "./lib/supabaseClient";
 import ErrorBoundary from "./components/ErrorBoundary";
-import { INITIAL_PRODUCTS } from "./data/initialProducts";
+
+const DEFAULT_PRODUCTS: Product[] = [
+  {
+    id: "p_portfolio_prime",
+    name: "Portfolio Prime - Developer Layout",
+    cat: "Portfolio",
+    desc: "A premium, responsive, developer portfolio template designed with elegant dark mode, a sleek masonry gallery showcase, and highly polished micro-interactions.",
+    price: "1499",
+    oldprice: "2999",
+    template: "portfolio-prime",
+    badge: "Hot",
+    color: "linear-gradient(135deg, #0f172a, #1e3a8a)",
+    mediatype: "carousel",
+    tags: ["React", "Tailwind", "Vite", "Motion"],
+    features: [
+      "Elegant Dark Mode",
+      "Responsive Layout",
+      "Contact Form Integration",
+      "Interactive Skill Canvas",
+      "Smooth Page Transitions"
+    ],
+    slides: [
+      "Home View",
+      "About Me Section",
+      "Interactive Work Showcase",
+      "Contact Form Panel"
+    ],
+    images: [],
+    status: "live",
+    updatedAt: "2026-07-15T05:00:00.000Z"
+  },
+  {
+    id: "p_saas_spark",
+    name: "SaaS Spark - Startup Landing Page",
+    cat: "SaaS / Startup",
+    desc: "High-converting, sleek landing page built for SaaS applications and startups. Includes bento-grid features, interactive pricing model calculator, and testimonial layouts.",
+    price: "2499",
+    oldprice: "4999",
+    template: "saas-spark",
+    badge: "New",
+    color: "linear-gradient(135deg, #020617, #3b82f6)",
+    mediatype: "carousel",
+    tags: ["SaaS", "Bento Grid", "Analytics", "Vite"],
+    features: [
+      "Bento Grid Feature Section",
+      "Interactive Pricing Cards",
+      "Fully Responsive Layout",
+      "Custom SVG Icons",
+      "SEO Optimized Build"
+    ],
+    slides: [
+      "Hero View",
+      "Analytics Grid",
+      "Interactive Pricing Calculator",
+      "Testimonials Showcase"
+    ],
+    images: [],
+    status: "live",
+    updatedAt: "2026-07-15T05:00:00.000Z"
+  },
+  {
+    id: "p_bistro_bites",
+    name: "Bistro Bites - Restaurant Template",
+    cat: "Restaurant",
+    desc: "Charming, elegant culinary template designed for upscale bistros and cafes. Showcases interactive food categories, online reservation flow, and dynamic customer stories.",
+    price: "0",
+    oldprice: "999",
+    template: "bistro-bites",
+    badge: "Free",
+    color: "linear-gradient(135deg, #1c1917, #78350f)",
+    mediatype: "carousel",
+    tags: ["Culinary", "Menu", "Reservation", "Tailwind"],
+    features: [
+      "Charming Stone-themed UI",
+      "Interactive Food Menu",
+      "Table Reservation Form",
+      "Dynamic Food Gallery",
+      "Google Maps Grounding"
+    ],
+    slides: [
+      "Restaurant Hero",
+      "Interactive Culinary Menu",
+      "Customer Story Carousel",
+      "Online Booking Sheet"
+    ],
+    images: [],
+    status: "live",
+    updatedAt: "2026-07-15T05:00:00.000Z"
+  }
+];
 
 function getInitialProducts(): Product[] {
   try {
@@ -18,7 +107,7 @@ function getInitialProducts(): Product[] {
   } catch (e) {
     // Ignore cache read error
   }
-  return INITIAL_PRODUCTS;
+  return DEFAULT_PRODUCTS;
 }
 
 export default function App() {
