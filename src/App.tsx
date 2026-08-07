@@ -7,8 +7,25 @@ import ErrorBoundary from "./components/ErrorBoundary";
 
 export default function App() {
   const [view, setView] = useState<"store" | "admin">("store");
-  const [products, setProducts] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  
+  // Initialize products state from localStorage cache for instant catalogue rendering
+  const [products, setProducts] = useState<Product[]>(() => {
+    try {
+      const cached = localStorage.getItem("lh_cached_products");
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch (e) {
+      // Ignore cache read error
+    }
+    return [];
+  });
+
+  // Only show full loading spinner if there is no cached products catalogue available
+  const [isLoading, setIsLoading] = useState<boolean>(() => products.length === 0);
   const [dbError, setDbError] = useState<string | null>(null);
 
   // Sync state with URL query parameters and pathnames for neat routing
@@ -38,7 +55,8 @@ export default function App() {
   }, []);
 
   const fetchProducts = async () => {
-    setIsLoading(true);
+    // Only show loading indicator if we don't already have catalogue data rendered
+    setIsLoading(products.length === 0);
     setDbError(null);
     try {
       if (supabase) {
@@ -85,20 +103,33 @@ export default function App() {
           }
         }
 
-        setProducts(Array.isArray(data) ? data : []);
+        const freshProducts = Array.isArray(data) ? data : [];
+        setProducts(freshProducts);
+        if (freshProducts.length > 0) {
+          try {
+            localStorage.setItem("lh_cached_products", JSON.stringify(freshProducts));
+          } catch (e) {
+            console.error("Failed to update cached products:", e);
+          }
+        }
       } else {
         const res = await fetch("/api/products");
         if (res.ok) {
           const data = await res.json();
-          setProducts(Array.isArray(data) ? data : []);
-        } else {
-          setProducts([]);
+          const freshProducts = Array.isArray(data) ? data : [];
+          setProducts(freshProducts);
+          if (freshProducts.length > 0) {
+            try {
+              localStorage.setItem("lh_cached_products", JSON.stringify(freshProducts));
+            } catch (e) {
+              console.error("Failed to update cached products:", e);
+            }
+          }
         }
       }
     } catch (err: any) {
       console.error("Failed to load products list:", err);
-      setProducts([]);
-      if (!supabase) {
+      if (!supabase && products.length === 0) {
         setDbError("Unable to load product catalogue. Is the backend server running?");
       }
     } finally {

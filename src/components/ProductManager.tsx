@@ -1006,19 +1006,7 @@ activeTab === "list"
                 </button>
                 <button
                   onClick={handleSaveProduct}
-                  className="
-flex items-center
-rounded-lg
-bg-blue-600
-hover:bg-blue-600
-text-white
-hover:text-white
-border-0
-px-4 py-2
-text-xs
-font-semibold
-transition-none
-"
+                  className="btn-primary flex items-center gap-1 rounded-lg bg-blue-600 hover:bg-blue-700 px-4 py-2 text-xs font-semibold text-white cursor-pointer gap-1.5 cursor-pointer border-0"
                 >
                   <i className="ti ti-device-floppy"></i> Save product
                 </button>
