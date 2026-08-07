@@ -5,27 +5,28 @@ import ProductManager from "./components/ProductManager";
 import { supabase } from "./lib/supabaseClient";
 import ErrorBoundary from "./components/ErrorBoundary";
 
+function getInitialProducts(): Product[] {
+  try {
+    const cached = localStorage.getItem("lh_cached_products");
+    if (cached) {
+      const parsed = JSON.parse(cached);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
+    }
+  } catch (e) {
+    // Ignore cache read error
+  }
+  return [];
+}
+
 export default function App() {
   const [view, setView] = useState<"store" | "admin">("store");
   
-  // Initialize products state from localStorage cache for instant catalogue rendering
-  const [products, setProducts] = useState<Product[]>(() => {
-    try {
-      const cached = localStorage.getItem("lh_cached_products");
-      if (cached) {
-        const parsed = JSON.parse(cached);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed;
-        }
-      }
-    } catch (e) {
-      // Ignore cache read error
-    }
-    return [];
-  });
-
-  // Only show full loading spinner if there is no cached products catalogue available
-  const [isLoading, setIsLoading] = useState<boolean>(() => products.length === 0);
+  // Initialize products and loading state synchronously outside render closures
+  const initialProducts = getInitialProducts();
+  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [isLoading, setIsLoading] = useState<boolean>(initialProducts.length === 0);
   const [dbError, setDbError] = useState<string | null>(null);
 
   // Sync state with URL query parameters and pathnames for neat routing
