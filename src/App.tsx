@@ -4,6 +4,7 @@ import StoreFront from "./components/StoreFront";
 import ProductManager from "./components/ProductManager";
 import { supabase } from "./lib/supabaseClient";
 import ErrorBoundary from "./components/ErrorBoundary";
+import DEFAULT_PRODUCTS from "../data/products.json";
 
 function getInitialProducts(): Product[] {
   try {
@@ -17,7 +18,7 @@ function getInitialProducts(): Product[] {
   } catch (e) {
     // Ignore cache read error
   }
-  return [];
+  return (DEFAULT_PRODUCTS as Product[]) || [];
 }
 
 export default function App() {
@@ -57,7 +58,7 @@ export default function App() {
 
   const fetchProducts = async () => {
     // Only show loading indicator if we don't already have catalogue data rendered
-    setIsLoading(products.length === 0);
+    setIsLoading(prev => prev && products.length === 0);
     setDbError(null);
     try {
       if (supabase) {
